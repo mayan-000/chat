@@ -78,16 +78,17 @@ public class loginActivity extends AppCompatActivity {
         if(user!=null){
 //            Got to user's Chat section
             if(user.isEmailVerified()) {
-                startActivity(new Intent(this, chatSectionActivity.class));
-                finish();
+                Intent i = new Intent(this, friendChat.class);
+                i.putExtra("friendUserUid","D8Zi9k27xdfvo9mQl3dVX6DKvyc2");
+                startActivity(i);                finish();
             }
             else{
                 {
 //                    Delete name
                     FirebaseDatabase.getInstance().getReference()
-                            .child("users").child(filter(user.getEmail())).removeValue();
+                            .child("users").child(user.getUid()).removeValue();
 //                    Delete profilePic
-                    FirebaseStorage.getInstance().getReference(user.getEmail()).delete();
+                    FirebaseStorage.getInstance().getReference(user.getUid()).delete();
                 }
                 auth.signOut();
                 user.delete();
@@ -114,7 +115,9 @@ public class loginActivity extends AppCompatActivity {
 //                    Check is email verified is not delete account
                     if(user.isEmailVerified()){
                         Toast.makeText(this, "Login Done", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(this, chatSectionActivity.class));
+                        Intent i = new Intent(this, friendChat.class);
+                        i.putExtra("friendUserUid","ku0EFV3pg9gYUcvU2w1UPCFcyPy2");
+                        startActivity(i);
                         finish();
                     }
                     else{
@@ -123,8 +126,8 @@ public class loginActivity extends AppCompatActivity {
                         password.setText("");
                         {
                             FirebaseDatabase.getInstance().getReference()
-                                    .child("users").child(filter(userEmail)).removeValue();
-                            FirebaseStorage.getInstance().getReference(user.getEmail()).delete();
+                                    .child("users").child(user.getUid()).removeValue();
+                            FirebaseStorage.getInstance().getReference(user.getUid()).delete();
                         }
                         auth.signOut();
                         user.delete();
@@ -150,13 +153,5 @@ public class loginActivity extends AppCompatActivity {
         return pat.matcher(email).matches();
     }
 
-    private String filter(String email){
-        String ans = "";
-        String[] elements = email.split("\\.");
-        for (String e:elements) {
-            ans += e;
-        }
-        return ans;
-    }
 
 }

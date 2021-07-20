@@ -38,6 +38,7 @@ public class signupActivity extends AppCompatActivity {
     private ImageView profilePic;
     private FirebaseAuth auth = FirebaseAuth.getInstance();
     private Uri Imageuri;
+    private String generatedFilePath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,11 +111,14 @@ public class signupActivity extends AppCompatActivity {
 
     private void uploadPic(String userEmail){
         StorageReference storageReference = FirebaseStorage.getInstance()
-                .getReference(userEmail);
-        StorageReference reference = storageReference.child(userEmail+
-                "ProfilePic");
+                .getReference(auth.getCurrentUser().getUid());
+        StorageReference reference = storageReference.child("ProfilePic");
         reference.putFile(Imageuri).addOnSuccessListener(taskSnapshot -> {
-            return;
+            Task<Uri> downloadUri = taskSnapshot.getStorage().getDownloadUrl();
+
+            if(downloadUri.isSuccessful()) {
+                generatedFilePath = downloadUri.getResult().toString();
+            }
         });
 
     }
@@ -129,9 +133,12 @@ public class signupActivity extends AppCompatActivity {
                             Toast.LENGTH_LONG).show();
 
                     FirebaseDatabase database = FirebaseDatabase.getInstance();
-                    DatabaseReference reference = database.getReference("users/"+filter(userEmail)
+                    DatabaseReference reference = database.getReference("users/"+user.getUid()
                             +"/username");
                     reference.setValue(userName.getText().toString());
+                    reference = database.getReference("users/"+user.getUid()
+                            +"/ProfilePic");
+                    reference.setValue(generatedFilePath);
 
                     auth.signOut();
                     startActivity(new Intent(this, loginActivity.class));

@@ -9,7 +9,7 @@
         android:id="@+id/friendImage"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_margin="@dimen/margin"
+        android:layout_margin="10dp"
         android:scaleType="fitXY"
         tools:srcCompat="@tools:sample/avatars" />
 
@@ -22,7 +22,7 @@
             android:id="@+id/friendName"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_margin="@dimen/margin"
+            android:layout_margin="7dp"
             android:autoSizeTextType="uniform"
             android:text="Name"
             android:textColor="@color/black"
@@ -37,7 +37,7 @@
                 android:id="@+id/recent"
                 android:layout_width="133dp"
                 android:layout_height="34dp"
-                android:layout_margin="@dimen/margin"
+                android:layout_margin="7dp"
                 android:autoSizeTextType="uniform"
                 android:text="recent msg" />
 
@@ -45,6 +45,7 @@
                 android:id="@+id/time"
                 android:layout_width="78dp"
                 android:layout_height="34dp"
+                android:layout_margin="7dp"
                 android:layout_marginTop="@dimen/margin"
                 android:layout_marginRight="@dimen/margin"
                 android:layout_marginBottom="@dimen/margin"

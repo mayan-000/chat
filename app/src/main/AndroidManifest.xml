@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.chat">
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
         android:allowBackup="true"
@@ -9,7 +10,9 @@
         android:roundIcon="@mipmap/chat_logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.Chat">
-        <activity android:name=".friendChat"></activity>
+        <activity android:name=".friendChat"
+            android:theme="@style/Theme.ChatLogin"
+            android:windowSoftInputMode="adjustPan"/>
         <activity
             android:name=".forgotActivity"
             android:theme="@style/Theme.ChatLogin" />
@@ -17,7 +20,7 @@
         <activity
             android:name=".signupActivity"
             android:theme="@style/Theme.ChatLogin"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".loginActivity"
             android:theme="@style/Theme.ChatLogin"
