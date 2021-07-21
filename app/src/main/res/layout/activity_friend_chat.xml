@@ -41,7 +41,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/messageList"
         android:layout_width="match_parent"
-        android:layout_height="561dp">
+        android:layout_height="665dp">
 
     </androidx.recyclerview.widget.RecyclerView>
 

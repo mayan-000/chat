@@ -5,14 +5,16 @@ public class messageClass {
     private String time;
     private String message;
     private String type;
+    private int read;
 
     public messageClass() {}
 
-    public messageClass(String date, String time, String message, String type) {
+    public messageClass(String date, String time, String message, String type, int read) {
         this.date = date;
         this.time = time;
         this.message = message;
         this.type = type;
+        this.read = read;
     }
 
     public String getDate() {
@@ -46,4 +48,8 @@ public class messageClass {
     public void setType(String type) {
         this.type = type;
     }
+
+    public int getRead() { return read; }
+
+    public void setRead(int read) { this.read = read; }
 }

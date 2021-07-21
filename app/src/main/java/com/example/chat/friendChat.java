@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -110,14 +111,27 @@ public class friendChat extends AppCompatActivity {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
 
         Query query = database.getReference().child("users/"+
-                user.getUid()+"/"+friendUserUid+"/messages");
+                user.getUid()+"/friends/"+friendUserUid+"/messages");
 
         query.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot snapshot, String previousChildName) {
                 messageClass msg = snapshot.getValue(messageClass.class);
+                msg.setRead(1);
                 messages.add(msg);
 
+                if(msg.getType().equalsIgnoreCase("receive")){
+                    DatabaseReference ref = database.getReference("users/"+
+                            user.getUid()+"/friends/"+friendUserUid+"/messages/"+
+                            snapshot.getKey());
+                    ref.setValue(msg);
+//                    ref = database.getReference("users/"+
+//                            friendUserUid+"/friends/"+user.getUid()+"/messages/"+
+//                            snapshot.getKey());
+//
+//                    msg.setType("send");
+//                    ref.setValue(msg);
+                }
             }
 
             @Override
@@ -216,7 +230,6 @@ public class friendChat extends AppCompatActivity {
             }
         });
 
-
     }
 
     public class GetImageFromUrl extends AsyncTask<String, Void, Bitmap> {
@@ -254,16 +267,27 @@ public class friendChat extends AppCompatActivity {
 
         String [] dateTime = dtf.format(now).split(" ",2);
 
-        messageClass NewMsg = new messageClass(dateTime[0],dateTime[1],MessageToSend,"send"),
-                NewMsg2 = new messageClass(dateTime[0],dateTime[1],MessageToSend,"receive");
+        messageClass NewMsg = new messageClass(dateTime[0],dateTime[1],MessageToSend,"send",1),
+                NewMsg2 = new messageClass(dateTime[0],dateTime[1],MessageToSend,"receive",0);
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users/"+
-                user.getUid()+"/"+friendUserUid+"/messages/");
-        reference.push().setValue(NewMsg);
+                user.getUid()+"/friends/"+friendUserUid+"/messages/");
+        reference = reference.push();
+        String [] st = reference.toString().split("/");
+
+        reference.setValue(NewMsg);
 
         reference = FirebaseDatabase.getInstance().getReference("users/"+
-                friendUserUid+"/"+user.getUid()+"/messages/");
-        reference.push().setValue(NewMsg2);
+                friendUserUid+"/friends/"+user.getUid()+"/messages/"+st[st.length-1]);
+        reference.setValue(NewMsg2);
+
+        reference = FirebaseDatabase.getInstance().getReference("users/"+
+                user.getUid()+"/LastMessages/"+friendUserUid+"/");
+        reference.setValue(NewMsg);
+
+        reference = FirebaseDatabase.getInstance().getReference("users/"+
+                friendUserUid+"/LastMessages/"+user.getUid()+"/");
+        reference.setValue(NewMsg2);
 
         messageToSend.setText("");
 
@@ -282,4 +306,13 @@ public class friendChat extends AppCompatActivity {
         adapter.stopListening();
     }
 
+
+//    OnbackButton Left
+
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(new Intent(this, chatSectionActivity.class));
+    }
 }

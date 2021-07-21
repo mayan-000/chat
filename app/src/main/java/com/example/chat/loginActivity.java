@@ -78,8 +78,8 @@ public class loginActivity extends AppCompatActivity {
         if(user!=null){
 //            Got to user's Chat section
             if(user.isEmailVerified()) {
-                Intent i = new Intent(this, friendChat.class);
-                i.putExtra("friendUserUid","D8Zi9k27xdfvo9mQl3dVX6DKvyc2");
+                Intent i = new Intent(this, chatSectionActivity.class);
+//                i.putExtra("friendUserUid","D8Zi9k27xdfvo9mQl3dVX6DKvyc2");
                 startActivity(i);                finish();
             }
             else{
