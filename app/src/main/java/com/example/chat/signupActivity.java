@@ -7,9 +7,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,6 +42,7 @@ public class signupActivity extends AppCompatActivity {
     private FirebaseAuth auth = FirebaseAuth.getInstance();
     private Uri Imageuri;
     private String generatedFilePath;
+    private int imageFlag = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +62,8 @@ public class signupActivity extends AppCompatActivity {
             if(isValid(userEmail) && userPassword.length()>=8 && userName.length()>0)
                 setSignUp(userEmail,userPassword);
             else
-                Toast.makeText(this, "Wrong Format of Credentials", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Wrong Format of Credentials", Toast.LENGTH_SHORT)
+                        .show();
         });
 
         login.setOnClickListener(v -> {
@@ -93,9 +98,12 @@ public class signupActivity extends AppCompatActivity {
         
         auth.createUserWithEmailAndPassword(userEmail,userPwd)
         .addOnCompleteListener(this,task -> {
-            if(task.isSuccessful()){
+            if(imageFlag==0){
+                Toast.makeText(this, "Select A Profile Pic",
+                        Toast.LENGTH_SHORT).show();
+            }
+            else if(task.isSuccessful()){
                 uploadPic(userEmail);
-                sendLink(userEmail);
             }
             else{
                 if(task.getException() instanceof FirebaseAuthUserCollisionException){
@@ -110,17 +118,19 @@ public class signupActivity extends AppCompatActivity {
     }
 
     private void uploadPic(String userEmail){
+        findViewById(R.id.progressBarSignUpActivity).setVisibility(View.VISIBLE);
+        findViewById(R.id.viewScrollSignUpActivity).setVisibility(View.INVISIBLE);
+        findViewById(R.id.textViewSignUpActivity).setVisibility(View.VISIBLE);
+
         StorageReference storageReference = FirebaseStorage.getInstance()
                 .getReference(auth.getCurrentUser().getUid());
         StorageReference reference = storageReference.child("ProfilePic");
-        reference.putFile(Imageuri).addOnSuccessListener(taskSnapshot -> {
-            Task<Uri> downloadUri = taskSnapshot.getStorage().getDownloadUrl();
+        reference.putFile(Imageuri).addOnSuccessListener(taskSnapshot ->
+                reference.getDownloadUrl().addOnCompleteListener(task -> {
+            generatedFilePath = task.getResult().toString();
 
-            if(downloadUri.isSuccessful()) {
-                generatedFilePath = downloadUri.getResult().toString();
-            }
-        });
-
+                    sendLink(userEmail);
+        }));
     }
 
     private void sendLink(String userEmail){
@@ -139,6 +149,9 @@ public class signupActivity extends AppCompatActivity {
                     reference = database.getReference("users/"+user.getUid()
                             +"/ProfilePic");
                     reference.setValue(generatedFilePath);
+                    reference = database.getReference("users/"+user.getUid()
+                            +"/email");
+                    reference.setValue(userEmail);
 
                     auth.signOut();
                     startActivity(new Intent(this, loginActivity.class));
@@ -148,17 +161,6 @@ public class signupActivity extends AppCompatActivity {
                     Toast.makeText(this, "Failed to Send Verification Email",
                             Toast.LENGTH_LONG).show();
             });
-
-
-    }
-
-    private String filter(String email){
-        String ans = "";
-        String[] elements = email.split("\\.");
-        for (String e:elements) {
-            ans += e;
-        }
-        return ans;
     }
 
     private void chooseFile(){
@@ -174,6 +176,7 @@ public class signupActivity extends AppCompatActivity {
         if(requestCode == 1 && resultCode == RESULT_OK){
             Imageuri = data.getData();
             Picasso.get().load(Imageuri).into(profilePic);
+            imageFlag=1;
         }
     }
 }

@@ -115,8 +115,7 @@ public class loginActivity extends AppCompatActivity {
 //                    Check is email verified is not delete account
                     if(user.isEmailVerified()){
                         Toast.makeText(this, "Login Done", Toast.LENGTH_SHORT).show();
-                        Intent i = new Intent(this, friendChat.class);
-                        i.putExtra("friendUserUid","ku0EFV3pg9gYUcvU2w1UPCFcyPy2");
+                        Intent i = new Intent(this, chatSectionActivity.class);
                         startActivity(i);
                         finish();
                     }

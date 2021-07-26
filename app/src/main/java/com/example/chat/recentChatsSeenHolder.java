@@ -2,6 +2,7 @@ package com.example.chat;
 
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -13,12 +14,14 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 public class recentChatsSeenHolder extends RecyclerView.ViewHolder {
 
     private TextView nameText, messageText, timeText;
     private ImageView profileImage;
+    private ProgressBar nameBar, imageBar, messageBar, timeBar;
 
     public recentChatsSeenHolder(View itemView) {
         super(itemView);
@@ -27,31 +30,43 @@ public class recentChatsSeenHolder extends RecyclerView.ViewHolder {
         messageText = itemView.findViewById(R.id.friendMessageRecentSeen);
         timeText = itemView.findViewById(R.id.friendMessageTimeRecentSeen);
         profileImage = itemView.findViewById(R.id.friendProfilePicRecentSeen);
+        nameBar = itemView.findViewById(R.id.progressBarNameRecentChatsSeen);
+        imageBar = itemView.findViewById(R.id.progressBarImageRecentChatsSeen);
+        messageBar = itemView.findViewById(R.id.progressBarMessageRecentChatsSeen);
+        timeBar = itemView.findViewById(R.id.progressBarTimeRecentChatsSeen);
+
+        nameText.setVisibility(View.INVISIBLE);
+        messageText.setVisibility(View.INVISIBLE);
+        timeText.setVisibility(View.INVISIBLE);
+        profileImage.setVisibility(View.INVISIBLE);
+
     }
 
-    void bind(messageClassNew message){
+    void bind(messageClassNew message, String name, String image){
 //       message, read, time, date, type, Uid
 
         messageText.setText(message.getMessage());
+        messageBar.setVisibility(View.INVISIBLE);
+        messageText.setVisibility(View.VISIBLE);
+
         timeText.setText(message.getDate()+" "+message.getTime());
+        timeBar.setVisibility(View.INVISIBLE);
+        timeText.setVisibility(View.VISIBLE);
 
+        nameText.setText(name);
+        nameText.setVisibility(View.VISIBLE);
+        nameBar.setVisibility(View.INVISIBLE);
 
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference(
-                "users/"+message.getUid()+"/username/");
-
-        reference.get().addOnCompleteListener(task -> {
-            if(task.isSuccessful()) {
-                nameText.setText(task.getResult().getValue(String.class));
+        Picasso.get().load(image).fit().into(profileImage, new Callback() {
+            @Override
+            public void onSuccess() {
+                profileImage.setVisibility(View.VISIBLE);
+                imageBar.setVisibility(View.INVISIBLE);
             }
-        });
 
-        reference = FirebaseDatabase.getInstance().getReference(
-                "users/"+message.getUid()+"/ProfilePic/");
+            @Override
+            public void onError(Exception e) {
 
-        reference.get().addOnCompleteListener(task -> {
-            if(task.isSuccessful()){
-                Picasso.get().load(task.getResult().getValue(String.class))
-                        .into(profileImage);
             }
         });
     }

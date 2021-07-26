@@ -1,10 +1,12 @@
 package com.example.chat;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager2.widget.ViewPager2;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -14,6 +16,8 @@ import android.widget.Button;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -33,6 +37,9 @@ public class chatSectionActivity extends AppCompatActivity {
     private ArrayList<recentChatClass> recents = new ArrayList<>();
     private FirebaseRecyclerAdapter adapter;
 
+    private TabLayout tabLayout;
+    private ViewPager2 viewPagerChat;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,12 +47,30 @@ public class chatSectionActivity extends AppCompatActivity {
 
         Log.d("msg","NoFrag");
 
+        tabLayout = findViewById(R.id.tabLayoutChatSection);
+        viewPagerChat = findViewById(R.id.viewPagerChatSection);
+        viewPagerChat.setPageTransformer(new ZoomOutPageTransformer());
+
+        viewPagerAdapter adapter = new viewPagerAdapter(getSupportFragmentManager()
+        ,getLifecycle());
+
+        viewPagerChat.setAdapter(adapter);
 
 
-        getSupportFragmentManager().beginTransaction()
-                .setReorderingAllowed(true)
-                .replace(R.id.fragmentContainer, new recentChatsFragment())
-                .commit();
+        TabLayoutMediator mediator = new TabLayoutMediator(tabLayout, viewPagerChat,
+                true, true, (tab, position) -> {
+                    if(position==0){
+                        tab.setText("Chats");
+                    }
+                    else if(position==1){
+                        tab.setText("Friends");
+                    }
+                    else{
+                        tab.setText("Profile");
+                    }
+                });
+
+        mediator.attach();
 
 
     }

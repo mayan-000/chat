@@ -3,8 +3,6 @@ package com.example.chat;
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,13 +11,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 
-import com.firebase.ui.database.FirebaseListOptions;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.firebase.ui.database.SnapshotParser;
-import com.google.firebase.FirebaseOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -28,13 +24,14 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 
 public class recentChatsFragment extends Fragment {
     private RecyclerView recentChats;
+    private LinearLayout oopsieMessage;
     private FirebaseRecyclerAdapter<messageClassNew, RecyclerView.ViewHolder> adapter;
     private ArrayList<messageClassNew> recents = new ArrayList<>();
     private FirebaseUser user;
@@ -46,27 +43,35 @@ public class recentChatsFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_recent_chats, container, false);
         recentChats = view.findViewById(R.id.recentChats);
-
+        oopsieMessage = view.findViewById(R.id.oopsieMessageRecentChatsFragment);
         user = FirebaseAuth.getInstance().getCurrentUser();
 
+        recentChats.setVisibility(View.INVISIBLE);
+        oopsieMessage.setVisibility(View.INVISIBLE);
+
 ////////////////////
-        Query query = FirebaseDatabase.getInstance().getReference().child("users/"+user.getUid()
+        Query query = FirebaseDatabase.getInstance().getReference("users/"+user.getUid()
                 +"/LastMessages/");
 
 
         query.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot snapshot, String previousChildName) {
-                messageClassNew msg = snapshot.getValue(messageClassNew.class);
+                messageClass msg1 = snapshot.getValue(messageClass.class);
+                messageClassNew msg = new messageClassNew(msg1);
+                msg.setUid(snapshot.getKey());
                 recents.add(msg);
-//                Log.d("msg",msg.getMessage());
             }
 
             @Override
             public void onChildChanged(DataSnapshot snapshot, String previousChildName) {
-                messageClassNew msg = snapshot.getValue(messageClassNew.class);
+                String uid = snapshot.getKey();
+                messageClass msg1 = snapshot.getValue(messageClass.class);
+                messageClassNew msg = new messageClassNew(msg1);
+                msg.setUid(uid);
+
                 for (messageClassNew m : recents) {
-                    if(msg.getUid().equalsIgnoreCase(m.getUid())){
+                    if(uid.equalsIgnoreCase(m.getUid())){
                         int pos = recents.indexOf(m);
                         recents.set(pos, msg);
                         break;
@@ -94,6 +99,7 @@ public class recentChatsFragment extends Fragment {
 
             @Override
             public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
                 if(viewType==1){
                     View view = LayoutInflater.from(parent.getContext()).inflate(
                             R.layout.recent_chats_seen, parent,false);
@@ -123,27 +129,57 @@ public class recentChatsFragment extends Fragment {
             }
 
             @Override
-            protected void onBindViewHolder(RecyclerView.ViewHolder holder, int position, messageClassNew model) {
+            protected void onBindViewHolder(RecyclerView.ViewHolder holder, int position,
+                                            messageClassNew model) {
+
                 messageClassNew msg = recents.get(position);
-                if(recents.get(position).getRead()==1){
-                    ((recentChatsSeenHolder) holder).bind(msg);
-                }
-                else{
-                    ((recentChatsUnseenHolder) holder).bind(msg);
-                }
+
+                final String[] nameString = {""};
+                final String[] imageString = {""};
+                DatabaseReference reference = FirebaseDatabase.getInstance().getReference(
+                        "users/"+recents.get(position).getUid()+"/username/");
+
+                reference.get().addOnCompleteListener(task -> {
+                    if(task.isSuccessful()) {
+                        nameString[0] = task.getResult().getValue(String.class);
+                    }
+                });
+
+                reference = FirebaseDatabase.getInstance().getReference(
+                        "users/"+recents.get(position).getUid()+"/ProfilePic/");
+
+                reference.get().addOnCompleteListener(task -> {
+                    if(task.isSuccessful()){
+                        imageString[0] = task.getResult().getValue(String.class);
+
+                        if(recents.get(position).getRead()==1){
+                            ((recentChatsSeenHolder) holder).bind(msg, nameString[0], imageString[0]);
+                        }
+                        else{
+                            ((recentChatsUnseenHolder) holder).bind(msg, nameString[0], imageString[0]);
+                        }
+
+                    }
+                });
+
+
             }
 
             @Override
             public int getItemCount() {
+                if(recents.size()==0){
+                    oopsieMessage.setVisibility(View.VISIBLE);
+                }
+                else{
+                    oopsieMessage.setVisibility(View.INVISIBLE);
+                    recentChats.setVisibility(View.VISIBLE);
+                }
                 return recents.size();
             }
 
             @Override
             public int getItemViewType(int position) {
-                if(recents.get(position).getRead()==1){
-                    return 1;
-                }
-                else return 2;
+                return recents.get(position).getRead();
             }
 
             @Override
@@ -175,6 +211,11 @@ public class recentChatsFragment extends Fragment {
         super.onStop();
         adapter.stopListening();
     }
+
+    public static recentChatsFragment getInstance(){
+        return new recentChatsFragment();
+    }
+
 }
 
 

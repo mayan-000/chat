@@ -12,6 +12,14 @@ public class messageClassNew{
 
     public messageClassNew() {}
 
+    public messageClassNew(messageClass message){
+        this.date = message.getDate();
+        this.time = message.getTime();
+        this.message = message.getMessage();
+        this.read = message.getRead();
+        this.type = message.getType();
+    }
+
     public String getUid() {
         return Uid;
     }

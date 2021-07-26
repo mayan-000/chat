@@ -24,6 +24,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -44,6 +45,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
@@ -66,6 +68,7 @@ public class friendChat extends AppCompatActivity {
     private TextView friendName;
     private EditText messageToSend;
     private RecyclerView messageList;
+    private ProgressBar nameProgress, imageProgress, messagesProgress;
     private FirebaseAuth auth = FirebaseAuth.getInstance();
     private FirebaseUser user = auth.getCurrentUser();
     private String friendUserUid;
@@ -104,6 +107,13 @@ public class friendChat extends AppCompatActivity {
         friendName = findViewById(R.id.friendNameChat);
         messageToSend = findViewById(R.id.MessageToSend);
         messageList = findViewById(R.id.messageList);
+        nameProgress = findViewById(R.id.progressBarNameFriendChat);
+        imageProgress = findViewById(R.id.progressBarImageFriendChat);
+        messagesProgress = findViewById(R.id.progressBarChatFriendChat);
+
+        friendProfilePic.setVisibility(View.INVISIBLE);
+        friendName.setVisibility(View.INVISIBLE);
+        messageList.setVisibility(View.INVISIBLE);
     }
 
     private void loadMessages(){
@@ -111,7 +121,7 @@ public class friendChat extends AppCompatActivity {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
 
         Query query = database.getReference().child("users/"+
-                user.getUid()+"/friends/"+friendUserUid+"/messages");
+                user.getUid()+"/friends/"+friendUserUid+"/messages/");
 
         query.addChildEventListener(new ChildEventListener() {
             @Override
@@ -120,18 +130,7 @@ public class friendChat extends AppCompatActivity {
                 msg.setRead(1);
                 messages.add(msg);
 
-                if(msg.getType().equalsIgnoreCase("receive")){
-                    DatabaseReference ref = database.getReference("users/"+
-                            user.getUid()+"/friends/"+friendUserUid+"/messages/"+
-                            snapshot.getKey());
-                    ref.setValue(msg);
-//                    ref = database.getReference("users/"+
-//                            friendUserUid+"/friends/"+user.getUid()+"/messages/"+
-//                            snapshot.getKey());
-//
-//                    msg.setType("send");
-//                    ref.setValue(msg);
-                }
+                resetRead(msg, snapshot.getKey());
             }
 
             @Override
@@ -182,6 +181,9 @@ public class friendChat extends AppCompatActivity {
 
             @Override
             public int getItemCount() {
+                messagesProgress.setVisibility(View.INVISIBLE);
+                messageList.setVisibility(View.VISIBLE);
+
                 return messages.size();
             }
 
@@ -218,6 +220,8 @@ public class friendChat extends AppCompatActivity {
         reference1.get().addOnCompleteListener(task -> {
             if(task.isSuccessful()){
                 friendName.setText(Objects.requireNonNull(task.getResult()).getValue(String.class));
+                friendName.setVisibility(View.VISIBLE);
+                nameProgress.setVisibility(View.INVISIBLE);
             }
         });
 
@@ -225,39 +229,24 @@ public class friendChat extends AppCompatActivity {
 
         reference.get().addOnCompleteListener(task -> {
             if(task.isSuccessful()){
-                new GetImageFromUrl(friendProfilePic).execute(Objects.requireNonNull(task.getResult())
-                        .getValue(String.class));
+                Picasso.get().load(task.getResult().getValue(String.class)).fit()
+                        .into(friendProfilePic, new Callback() {
+                            @Override
+                            public void onSuccess() {
+                                imageProgress.setVisibility(View.INVISIBLE);
+                                friendProfilePic.setVisibility(View.VISIBLE);
+                            }
+
+                            @Override
+                            public void onError(Exception e) {
+
+                            }
+                        });
             }
         });
 
     }
 
-    public class GetImageFromUrl extends AsyncTask<String, Void, Bitmap> {
-        ImageView imageView;
-        public GetImageFromUrl(ImageView img){
-            this.imageView = img;
-        }
-        @Override
-        protected Bitmap doInBackground(String... url) {
-            String stringUrl = url[0];
-            Bitmap bitmap = null;
-            InputStream inputStream;
-            try {
-                inputStream = new java.net.URL(stringUrl).openStream();
-                bitmap = BitmapFactory.decodeStream(inputStream);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return bitmap;
-        }
-        @Override
-        protected void onPostExecute(Bitmap bitmap){
-            super.onPostExecute(bitmap);
-            imageView.setImageBitmap(bitmap);
-        }
-
-
-    }
 
     private void NewMessageSent(){
         String MessageToSend = messageToSend.getText().toString();
@@ -315,4 +304,18 @@ public class friendChat extends AppCompatActivity {
         super.onBackPressed();
         startActivity(new Intent(this, chatSectionActivity.class));
     }
+
+
+    void resetRead(messageClass msg, String uid){
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("users/"+
+                user.getUid()+"/friends/"+friendUserUid+"/messages/"+
+                uid);
+        ref.setValue(msg);
+
+        ref = FirebaseDatabase.getInstance().getReference("users/"+
+                user.getUid()+"/LastMessages/"+friendUserUid+"/");
+
+        ref.setValue(msg);
+    }
+
 }
