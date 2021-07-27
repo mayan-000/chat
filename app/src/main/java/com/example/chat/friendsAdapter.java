@@ -56,6 +56,11 @@ public class friendsAdapter extends RecyclerView.Adapter {
         return friendList.size();
     }
 
+    public void clear(){
+        friendList.clear();
+        notifyDataSetChanged();
+    }
+
     public class friendViewHolder extends RecyclerView.ViewHolder{
 
         private ImageView friendImage;

@@ -1,11 +1,13 @@
 package com.example.chat;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.util.Log;
 import android.util.Pair;
@@ -33,6 +35,7 @@ public class friendsFragment extends Fragment {
     private RecyclerView friendsList;
     private ProgressBar progressBar;
     private LinearLayout oopiseLayout;
+    private SwipeRefreshLayout swipe;
     private ArrayList<String> friendsArrayList = new ArrayList<>();
     private friendsAdapter adapter;
     public friendsFragment() {}
@@ -46,13 +49,46 @@ public class friendsFragment extends Fragment {
 
         addFriends = view.findViewById(R.id.addFriendsButtonFriendFragment);
         friendsList = view.findViewById(R.id.friendsList);
+
         friendsList.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        adapter = new friendsAdapter(friendsArrayList);
+
+        friendsList.setAdapter(adapter);
+
         progressBar = view.findViewById(R.id.progressBarFriendsFragment);
         oopiseLayout = view.findViewById(R.id.oopsieMessageFriendsFragment);
+        swipe = view.findViewById(R.id.swipeFriendFragment);
         friendsList.setVisibility(View.INVISIBLE);
         oopiseLayout.setVisibility(View.INVISIBLE);
 
+        setFriendsList();
 
+        swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                adapter.clear();
+                friendsArrayList.clear();
+                setFriendsList();
+            }
+        });
+
+        swipe.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+
+
+        addFriends.setOnClickListener(v -> {
+            startActivity(new Intent(getContext(), addFriendsActivity.class));
+        });
+
+
+
+        return view;
+
+    }
+
+    void setFriendsList(){
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference(
                 "users/"+user.getUid()+"/friends/");
@@ -65,9 +101,8 @@ public class friendsFragment extends Fragment {
                     friendsArrayList.add(friendsUid);
                 }
 
-                adapter = new friendsAdapter(friendsArrayList);
-
-                friendsList.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
+                swipe.setRefreshing(false);
 
                 progressBar.setVisibility(View.INVISIBLE);
                 if(friendsArrayList.size()==0){
@@ -78,16 +113,6 @@ public class friendsFragment extends Fragment {
                 }
             }
         });
-
-
-        addFriends.setOnClickListener(v -> {
-
-        });
-
-
-
-        return view;
-
     }
 
 

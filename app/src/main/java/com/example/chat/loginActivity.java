@@ -26,7 +26,6 @@ public class loginActivity extends AppCompatActivity {
 
     private EditText email, password;
     private TextView logIn, signUp, forgotPassword;
-    private View googleSignIn;
     private FirebaseAuth auth = FirebaseAuth.getInstance();
 
     @Override
@@ -103,7 +102,6 @@ public class loginActivity extends AppCompatActivity {
         logIn = findViewById(R.id.logInButton);
         signUp = findViewById(R.id.signUpLogin);
         forgotPassword = findViewById(R.id.forgotPasswordLogin);
-        googleSignIn = findViewById(R.id.signInGoogleLogin);
     }
 
     private void setLogIn(String userEmail, String userPwd){

@@ -18,35 +18,35 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:id="@+id/friendImageFriendFragment"
-                android:layout_width="110dp"
+                android:id="@+id/friendImageRequestsFragment"
+                android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="167dp"
                 android:layout_weight="1"
                 android:padding="10dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/friendNameFriendFragement"
+                app:layout_constraintEnd_toStartOf="@+id/acceptButtonRequestsFragment"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:srcCompat="@tools:sample/avatars" />
 
             <ProgressBar
-                android:id="@+id/progressBarfriendsImageAdapter"
+                android:id="@+id/progressBarImageRequestsFragment"
                 style="?android:attr/progressBarStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="@+id/friendImageFriendFragment"
-                app:layout_constraintEnd_toEndOf="@+id/friendImageFriendFragment"
-                app:layout_constraintStart_toStartOf="@+id/friendImageFriendFragment"
-                app:layout_constraintTop_toTopOf="@+id/friendImageFriendFragment" />
+                app:layout_constraintBottom_toBottomOf="@+id/friendImageRequestsFragment"
+                app:layout_constraintEnd_toEndOf="@+id/friendImageRequestsFragment"
+                app:layout_constraintStart_toStartOf="@+id/friendImageRequestsFragment"
+                app:layout_constraintTop_toTopOf="@+id/friendImageRequestsFragment" />
 
             <TextView
-                android:id="@+id/friendNameFriendFragement"
-                android:layout_width="200dp"
+                android:id="@+id/friendNameRequestsFragment"
+                android:layout_width="125dp"
                 android:layout_height="55dp"
                 android:layout_margin="@dimen/margin"
-                android:layout_marginEnd="40dp"
+                android:layout_marginStart="5dp"
                 android:layout_weight="1"
                 android:hint="Name"
                 android:paddingLeft="20dp"
@@ -55,19 +55,29 @@
                 android:textSize="24sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/friendImageFriendFragment"
+                app:layout_constraintStart_toEndOf="@+id/friendImageRequestsFragment"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ProgressBar
-                android:id="@+id/progressBarfriendsNameAdapter"
+                android:id="@+id/progressBarNameRequestsFragment"
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="100dp"
                 android:layout_height="55dp"
-                app:layout_constraintBottom_toBottomOf="@+id/friendNameFriendFragement"
-                app:layout_constraintEnd_toEndOf="@+id/friendNameFriendFragement"
-                app:layout_constraintStart_toStartOf="@+id/friendNameFriendFragement"
-                app:layout_constraintTop_toTopOf="@+id/friendNameFriendFragement" />
+                app:layout_constraintBottom_toBottomOf="@+id/friendNameRequestsFragment"
+                app:layout_constraintEnd_toEndOf="@+id/friendNameRequestsFragment"
+                app:layout_constraintStart_toStartOf="@+id/friendNameRequestsFragment"
+                app:layout_constraintTop_toTopOf="@+id/friendNameRequestsFragment" />
+
+            <Button
+                android:id="@+id/acceptButtonRequestsFragment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:text="Accept"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/friendImageRequestsFragment"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>

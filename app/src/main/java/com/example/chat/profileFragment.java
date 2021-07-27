@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -31,6 +33,8 @@ public class profileFragment extends Fragment {
     private ImageButton changeName;
     private Button signOut;
     private FirebaseUser user;
+    private SwipeRefreshLayout swipe;
+    private ProgressBar progressBarImage, progressBarName, progressBarEmail;
     public profileFragment() {}
 
 
@@ -44,8 +48,25 @@ public class profileFragment extends Fragment {
         userProfilePic = view.findViewById(R.id.profileImageProfileFragment);
         changeName = view.findViewById(R.id.nameEditButtonProfileFragment);
         signOut = view.findViewById(R.id.signOutButtonProfileFragment);
+        progressBarImage = view.findViewById(R.id.progressBarImageProfileFragment);
+        progressBarName = view.findViewById(R.id.progressBarNameProfileFragment);
+        progressBarEmail = view.findViewById(R.id.progressBarEmailProfileFragment);
+        swipe = view.findViewById(R.id.swipeProfile);
 
-        setProfile();
+
+        swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                setProfile();
+            }
+        });
+
+        swipe.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+
+
 
 
         changeName.setOnClickListener(v -> {
@@ -78,9 +99,7 @@ public class profileFragment extends Fragment {
 
         userProfilePic.setOnClickListener(v -> {
             startActivity(new Intent(getActivity(), changeImageActivity.class));
-            getActivity().finish();
         });
-
 
 
 
@@ -89,6 +108,13 @@ public class profileFragment extends Fragment {
 
 
     void setProfile(){
+        userProfilePic.setVisibility(View.INVISIBLE);
+        progressBarImage.setVisibility(View.VISIBLE);
+        userName.setVisibility(View.INVISIBLE);
+        progressBarName.setVisibility(View.VISIBLE);
+        userEmail.setVisibility(View.INVISIBLE);
+        progressBarEmail.setVisibility(View.VISIBLE);
+
         user = FirebaseAuth.getInstance().getCurrentUser();
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -102,8 +128,8 @@ public class profileFragment extends Fragment {
                             @Override
                             public void onSuccess() {
                                 userProfilePic.setVisibility(View.VISIBLE);
-                                getView().findViewById(R.id.progressBarImageProfileFragment)
-                                        .setVisibility(View.INVISIBLE);
+                                progressBarImage.setVisibility(View.INVISIBLE);
+                                swipe.setRefreshing(false);
                             }
 
                             @Override
@@ -121,8 +147,7 @@ public class profileFragment extends Fragment {
             if(task.isSuccessful()){
                 userName.setText(task.getResult().getValue(String.class));
                 userName.setVisibility(View.VISIBLE);
-                getView().findViewById(R.id.progressBarNameProfileFragment)
-                        .setVisibility(View.INVISIBLE);
+                progressBarName.setVisibility(View.INVISIBLE);
             }
         });
 
@@ -133,8 +158,7 @@ public class profileFragment extends Fragment {
             if(task.isSuccessful()){
                 userEmail.setText(task.getResult().getValue(String.class));
                 userEmail.setVisibility(View.VISIBLE);
-                getView().findViewById(R.id.progressBarEmailProfileFragment)
-                        .setVisibility(View.INVISIBLE);
+                progressBarEmail.setVisibility(View.INVISIBLE);
             }
         });
 
@@ -144,4 +168,9 @@ public class profileFragment extends Fragment {
         return new profileFragment();
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        setProfile();
+    }
 }

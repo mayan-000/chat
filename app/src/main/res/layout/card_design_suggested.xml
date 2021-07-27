@@ -18,36 +18,34 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:id="@+id/friendImageFriendFragment"
+                android:id="@+id/friendImageAddFriendFragment"
                 android:layout_width="110dp"
                 android:layout_height="0dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
+                android:layout_marginStart="10dp"
                 android:layout_weight="1"
                 android:padding="10dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/friendNameFriendFragement"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:srcCompat="@tools:sample/avatars" />
 
             <ProgressBar
-                android:id="@+id/progressBarfriendsImageAdapter"
+                android:id="@+id/progressBarAddFriendImage"
                 style="?android:attr/progressBarStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="@+id/friendImageFriendFragment"
-                app:layout_constraintEnd_toEndOf="@+id/friendImageFriendFragment"
-                app:layout_constraintStart_toStartOf="@+id/friendImageFriendFragment"
-                app:layout_constraintTop_toTopOf="@+id/friendImageFriendFragment" />
+                app:layout_constraintBottom_toBottomOf="@+id/friendImageAddFriendFragment"
+                app:layout_constraintEnd_toEndOf="@+id/friendImageAddFriendFragment"
+                app:layout_constraintStart_toStartOf="@+id/friendImageAddFriendFragment"
+                app:layout_constraintTop_toTopOf="@+id/friendImageAddFriendFragment" />
 
             <TextView
-                android:id="@+id/friendNameFriendFragement"
-                android:layout_width="200dp"
+                android:id="@+id/friendNameAddFriendFragment"
+                android:layout_width="150dp"
                 android:layout_height="55dp"
                 android:layout_margin="@dimen/margin"
-                android:layout_marginEnd="40dp"
-                android:layout_weight="1"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="4dp"
                 android:hint="Name"
                 android:paddingLeft="20dp"
                 android:paddingTop="5dp"
@@ -55,19 +53,32 @@
                 android:textSize="24sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/friendImageFriendFragment"
+                app:layout_constraintEnd_toStartOf="@+id/addButtonSuggestedFragment"
+                app:layout_constraintStart_toEndOf="@+id/friendImageAddFriendFragment"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ProgressBar
-                android:id="@+id/progressBarfriendsNameAdapter"
+                android:id="@+id/progressBarAddFriendName"
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="100dp"
                 android:layout_height="55dp"
-                app:layout_constraintBottom_toBottomOf="@+id/friendNameFriendFragement"
-                app:layout_constraintEnd_toEndOf="@+id/friendNameFriendFragement"
-                app:layout_constraintStart_toStartOf="@+id/friendNameFriendFragement"
-                app:layout_constraintTop_toTopOf="@+id/friendNameFriendFragement" />
+                app:layout_constraintBottom_toBottomOf="@+id/friendNameAddFriendFragment"
+                app:layout_constraintEnd_toEndOf="@+id/friendNameAddFriendFragment"
+                app:layout_constraintStart_toStartOf="@+id/friendNameAddFriendFragment"
+                app:layout_constraintTop_toTopOf="@+id/friendNameAddFriendFragment" />
+
+            <Button
+                android:id="@+id/addButtonSuggestedFragment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="25dp"
+                android:text="Add"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>

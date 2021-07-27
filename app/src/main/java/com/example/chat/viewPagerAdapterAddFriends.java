@@ -2,14 +2,12 @@ package com.example.chat;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Lifecycle;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-public class viewPagerAdapter extends FragmentStateAdapter {
-
-    public viewPagerAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle) {
+public class viewPagerAdapterAddFriends extends FragmentStateAdapter {
+    public viewPagerAdapterAddFriends(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle) {
         super(fragmentManager, lifecycle);
     }
 
@@ -17,23 +15,18 @@ public class viewPagerAdapter extends FragmentStateAdapter {
     @Override
     public Fragment createFragment(int position) {
         Fragment fragment;
-
-        if(position==0){
-            fragment = recentChatsFragment.getInstance();
+        if (position==0){
+            fragment = suggestedFriendsFragment.getInstance();
         }
-        else if(position==1){
-            fragment = friendsFragment.getInstance();
+        else {
+            fragment = requestsFragment.getInstance();
         }
-        else{
-            fragment = profileFragment.getInstance();
-        }
-
 
         return fragment;
     }
 
     @Override
     public int getItemCount() {
-        return 3;
+        return 2;
     }
 }

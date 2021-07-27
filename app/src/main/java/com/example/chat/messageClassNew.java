@@ -1,8 +1,10 @@
 package com.example.chat;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
-public class messageClassNew{
+public class messageClassNew implements Comparable<messageClassNew>{
     private String Uid;
     private String date;
     private String time;
@@ -77,10 +79,24 @@ public class messageClassNew{
         this.read = read;
     }
 
-    public static void sort(ArrayList<messageClassNew> list){
-        list.sort((o1, o2) ->
-            o2.getDate().compareToIgnoreCase(o1.getDate())
-        );
+    @Override
+    public int compareTo(messageClassNew o) {
+        if(this.getDate().equalsIgnoreCase(o.getDate())){
+            if(this.getTime().equalsIgnoreCase(o.getTime())){
+                if(this.getRead()==o.getRead()){
+                    return 0;
+                }
+                else if(this.getRead()<o.getRead()){
+                    return -1;
+                }
+                else return 1;
+            }
+            else{
+                return -1*this.getTime().compareToIgnoreCase(o.getTime());
+            }
+        }
+        else{
+            return -1*this.getDate().compareToIgnoreCase(o.getDate());
+        }
     }
-
 }

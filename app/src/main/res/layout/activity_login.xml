@@ -93,16 +93,4 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
-    <com.google.android.gms.common.SignInButton
-        android:id="@+id/signInGoogleLogin"
-        android:layout_width="191dp"
-        android:layout_height="47dp"
-        app:colorScheme="dark"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/passwordLogin"
-        app:layout_constraintHorizontal_bias="0.444"
-        app:layout_constraintStart_toStartOf="@+id/passwordLogin"
-        app:layout_constraintTop_toBottomOf="@+id/forgotPasswordLogin"
-        app:layout_constraintVertical_bias="0.264" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

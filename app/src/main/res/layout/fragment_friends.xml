@@ -15,9 +15,7 @@
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
-        android:layout_marginBottom="18dp"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/friendsList"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -38,25 +36,36 @@
             android:layout_gravity="center"
             android:layout_weight="1"
             android:clickable="true"
-            android:elevation="20dp"
             android:gravity="center"
             android:text="Add Friends"
             android:textColor="@color/navy_blue"
             android:textSize="16sp" />
     </LinearLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/friendsList"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeFriendFragment"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="5dp"
         android:layout_marginTop="60dp"
-        android:visibility="visible"
+        android:layout_marginEnd="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-    </androidx.recyclerview.widget.RecyclerView>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/friendsList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+        </androidx.recyclerview.widget.RecyclerView>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <LinearLayout
         android:id="@+id/oopsieMessageFriendsFragment"
@@ -64,10 +73,10 @@
         android:layout_height="239dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/friendsList"
+        app:layout_constraintEnd_toEndOf="@id/swipeFriendFragment"
         app:layout_constraintHorizontal_bias="0.474"
-        app:layout_constraintStart_toStartOf="@+id/friendsList"
-        app:layout_constraintTop_toTopOf="@+id/friendsList"
+        app:layout_constraintStart_toStartOf="@id/swipeFriendFragment"
+        app:layout_constraintTop_toTopOf="@id/swipeFriendFragment"
         app:layout_constraintVertical_bias="0.173">
 
         <ImageView
@@ -92,7 +101,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/friendsList"
-        app:layout_constraintStart_toStartOf="@+id/friendsList"
+        app:layout_constraintEnd_toEndOf="@id/swipeFriendFragment"
+        app:layout_constraintStart_toStartOf="@id/swipeFriendFragment"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

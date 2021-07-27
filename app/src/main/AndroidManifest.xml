@@ -11,8 +11,10 @@
         android:roundIcon="@mipmap/chat_logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.Chat">
-        <activity android:name=".addFriendsActivity"></activity>
-        <activity android:name=".changeImageActivity" />
+        <activity android:name=".addFriendsActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".changeImageActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".friendChat"
             android:theme="@style/Theme.ChatLogin"
@@ -20,15 +22,18 @@
         <activity
             android:name=".forgotActivity"
             android:theme="@style/Theme.ChatLogin" />
-        <activity android:name=".chatSectionActivity" />
+        <activity android:name=".chatSectionActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".signupActivity"
             android:theme="@style/Theme.ChatLogin"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="adjustPan"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".loginActivity"
             android:theme="@style/Theme.ChatLogin"
-            android:windowSoftInputMode="adjustResize">
+            android:windowSoftInputMode="adjustResize"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

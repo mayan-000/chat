@@ -1,8 +1,11 @@
 package com.example.chat;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,6 +30,8 @@ import com.google.firebase.database.Query;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 
 public class recentChatsFragment extends Fragment {
@@ -37,9 +42,12 @@ public class recentChatsFragment extends Fragment {
     private FirebaseUser user;
 
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        Log.d("msg","ONCREATEVIEW");
 
         View view = inflater.inflate(R.layout.fragment_recent_chats, container, false);
         recentChats = view.findViewById(R.id.recentChats);
@@ -61,6 +69,7 @@ public class recentChatsFragment extends Fragment {
                 messageClassNew msg = new messageClassNew(msg1);
                 msg.setUid(snapshot.getKey());
                 recents.add(msg);
+
             }
 
             @Override
@@ -74,6 +83,7 @@ public class recentChatsFragment extends Fragment {
                     if(uid.equalsIgnoreCase(m.getUid())){
                         int pos = recents.indexOf(m);
                         recents.set(pos, msg);
+
                         break;
                     }
                 }
@@ -185,9 +195,10 @@ public class recentChatsFragment extends Fragment {
             @Override
             public void onDataChanged() {
                 super.onDataChanged();
-                messageClassNew.sort(recents);
+                Collections.sort(recents);
                 notifyDataSetChanged();
             }
+
         };
 
         recentChats.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -207,10 +218,11 @@ public class recentChatsFragment extends Fragment {
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
+    public void onDestroyView() {
+        super.onDestroyView();
         adapter.stopListening();
     }
+
 
     public static recentChatsFragment getInstance(){
         return new recentChatsFragment();

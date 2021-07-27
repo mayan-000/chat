@@ -32,11 +32,6 @@ import java.util.Objects;
 
 public class chatSectionActivity extends AppCompatActivity {
 
-    private FirebaseAuth auth = FirebaseAuth.getInstance();
-    private RecyclerView recentChatList;
-    private ArrayList<recentChatClass> recents = new ArrayList<>();
-    private FirebaseRecyclerAdapter adapter;
-
     private TabLayout tabLayout;
     private ViewPager2 viewPagerChat;
 
@@ -45,7 +40,6 @@ public class chatSectionActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_section);
 
-        Log.d("msg","NoFrag");
 
         tabLayout = findViewById(R.id.tabLayoutChatSection);
         viewPagerChat = findViewById(R.id.viewPagerChatSection);

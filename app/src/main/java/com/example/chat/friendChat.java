@@ -289,14 +289,13 @@ public class friendChat extends AppCompatActivity {
         adapter.startListening();
     }
 
+
     @Override
-    protected void onStop() {
-        super.onStop();
+    protected void onDestroy() {
+        super.onDestroy();
         adapter.stopListening();
     }
 
-
-//    OnbackButton Left
 
 
     @Override
@@ -317,5 +316,6 @@ public class friendChat extends AppCompatActivity {
 
         ref.setValue(msg);
     }
+
 
 }
