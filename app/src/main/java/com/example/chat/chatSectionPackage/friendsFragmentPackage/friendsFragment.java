@@ -1,26 +1,22 @@
-package com.example.chat;
+package com.example.chat.chatSectionPackage.friendsFragmentPackage;
 
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import android.util.Log;
-import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+import com.example.chat.R;
+import com.example.chat.addFriendsPackage.addFriendsActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -89,6 +85,10 @@ public class friendsFragment extends Fragment {
     }
 
     void setFriendsList(){
+        friendsList.setVisibility(View.INVISIBLE);
+        oopiseLayout.setVisibility(View.INVISIBLE);
+        progressBar.setVisibility(View.VISIBLE);
+
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference(
                 "users/"+user.getUid()+"/friends/");

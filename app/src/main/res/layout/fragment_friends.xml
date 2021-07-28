@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="@dimen/padding"
-    tools:context=".friendsFragment">
+    tools:context=".chatSectionPackage.friendsFragmentPackage.friendsFragment">
 
     <LinearLayout
         android:id="@+id/linearLayout5"

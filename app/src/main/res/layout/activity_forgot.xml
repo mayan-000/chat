@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="@dimen/margin"
-    tools:context=".forgotActivity">
+    tools:context=".authenticationPackage.forgotActivity">
 
     <TextView
         android:id="@+id/textView"

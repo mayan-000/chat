@@ -1,8 +1,6 @@
-package com.example.chat;
+package com.example.chat.chatSectionPackage.recentChatPackage;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
+import com.example.chat.friendChatPackage.messageClass;
 
 public class messageClassNew implements Comparable<messageClassNew>{
     private String Uid;
@@ -11,6 +9,7 @@ public class messageClassNew implements Comparable<messageClassNew>{
     private String message;
     private String type;
     private int read;
+
 
     public messageClassNew() {}
 
@@ -70,14 +69,7 @@ public class messageClassNew implements Comparable<messageClassNew>{
         this.read = read;
     }
 
-    public messageClassNew(String uid, String date, String time, String message, String type, int read) {
-        Uid = uid;
-        this.date = date;
-        this.time = time;
-        this.message = message;
-        this.type = type;
-        this.read = read;
-    }
+
 
     @Override
     public int compareTo(messageClassNew o) {

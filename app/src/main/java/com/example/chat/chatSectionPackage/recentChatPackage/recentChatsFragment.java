@@ -1,11 +1,8 @@
-package com.example.chat;
+package com.example.chat.chatSectionPackage.recentChatPackage;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,8 +12,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 
+import com.example.chat.R;
+import com.example.chat.friendChatPackage.friendChat;
+import com.example.chat.friendChatPackage.messageClass;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
@@ -27,11 +26,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 
 
 public class recentChatsFragment extends Fragment {
@@ -47,7 +44,6 @@ public class recentChatsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        Log.d("msg","ONCREATEVIEW");
 
         View view = inflater.inflate(R.layout.fragment_recent_chats, container, false);
         recentChats = view.findViewById(R.id.recentChats);
@@ -66,8 +62,10 @@ public class recentChatsFragment extends Fragment {
             @Override
             public void onChildAdded(DataSnapshot snapshot, String previousChildName) {
                 messageClass msg1 = snapshot.getValue(messageClass.class);
+                msg1.decrypt();
                 messageClassNew msg = new messageClassNew(msg1);
                 msg.setUid(snapshot.getKey());
+
                 recents.add(msg);
 
             }
@@ -76,12 +74,14 @@ public class recentChatsFragment extends Fragment {
             public void onChildChanged(DataSnapshot snapshot, String previousChildName) {
                 String uid = snapshot.getKey();
                 messageClass msg1 = snapshot.getValue(messageClass.class);
+                msg1.decrypt();
                 messageClassNew msg = new messageClassNew(msg1);
                 msg.setUid(uid);
 
                 for (messageClassNew m : recents) {
                     if(uid.equalsIgnoreCase(m.getUid())){
                         int pos = recents.indexOf(m);
+
                         recents.set(pos, msg);
 
                         break;

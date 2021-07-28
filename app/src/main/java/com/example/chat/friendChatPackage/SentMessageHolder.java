@@ -1,9 +1,11 @@
-package com.example.chat;
+package com.example.chat.friendChatPackage;
 
 import android.view.View;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.chat.R;
 
 public class SentMessageHolder extends RecyclerView.ViewHolder {
     TextView messageText, timeText, dateText;
@@ -16,7 +18,7 @@ public class SentMessageHolder extends RecyclerView.ViewHolder {
         dateText = itemView.findViewById(R.id.text_gchat_datestamp_me);
     }
 
-    void bind(messageClass message) {
+    public void bind(messageClass message) {
         messageText.setText(message.getMessage());
         timeText.setText(message.getTime());
         dateText.setText(message.getDate());

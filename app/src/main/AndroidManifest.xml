@@ -11,26 +11,26 @@
         android:roundIcon="@mipmap/chat_logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.Chat">
-        <activity android:name=".addFriendsActivity"
+        <activity android:name=".addFriendsPackage.addFriendsActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name=".changeImageActivity"
+        <activity android:name=".chatSectionPackage.profileFragmentPackage.changeImageActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".friendChat"
+            android:name=".friendChatPackage.friendChat"
             android:theme="@style/Theme.ChatLogin"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".forgotActivity"
+            android:name=".authenticationPackage.forgotActivity"
             android:theme="@style/Theme.ChatLogin" />
-        <activity android:name=".chatSectionActivity"
+        <activity android:name=".chatSectionPackage.chatSectionActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".signupActivity"
+            android:name=".authenticationPackage.signupActivity"
             android:theme="@style/Theme.ChatLogin"
             android:windowSoftInputMode="adjustPan"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".loginActivity"
+            android:name=".authenticationPackage.loginActivity"
             android:theme="@style/Theme.ChatLogin"
             android:windowSoftInputMode="adjustResize"
             android:screenOrientation="portrait">

@@ -1,39 +1,25 @@
-package com.example.chat;
+package com.example.chat.friendChatPackage;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
-import android.util.Pair;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowInsets;
 import android.view.inputmethod.EditorInfo;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.example.chat.R;
+import com.example.chat.chatSectionPackage.chatSectionActivity;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -42,25 +28,13 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Objects;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.regex.Pattern;
 
 public class friendChat extends AppCompatActivity {
 
@@ -128,9 +102,14 @@ public class friendChat extends AppCompatActivity {
             public void onChildAdded(DataSnapshot snapshot, String previousChildName) {
                 messageClass msg = snapshot.getValue(messageClass.class);
                 msg.setRead(1);
-                messages.add(msg);
 
                 resetRead(msg, snapshot.getKey());
+
+                msg.decrypt();
+
+                messages.add(msg);
+
+
             }
 
             @Override
@@ -198,6 +177,7 @@ public class friendChat extends AppCompatActivity {
             @Override
             public void onDataChanged() {
                 super.onDataChanged();
+//                addDates();
                 notifyDataSetChanged();
                 messageList.smoothScrollToPosition(messages.size());
             }
@@ -259,6 +239,9 @@ public class friendChat extends AppCompatActivity {
         messageClass NewMsg = new messageClass(dateTime[0],dateTime[1],MessageToSend,"send",1),
                 NewMsg2 = new messageClass(dateTime[0],dateTime[1],MessageToSend,"receive",0);
 
+        NewMsg.encrypt();
+        NewMsg2.setMessage(NewMsg.getMessage());
+
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users/"+
                 user.getUid()+"/friends/"+friendUserUid+"/messages/");
         reference = reference.push();
@@ -279,7 +262,6 @@ public class friendChat extends AppCompatActivity {
         reference.setValue(NewMsg2);
 
         messageToSend.setText("");
-
 
     }
 

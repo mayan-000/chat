@@ -1,11 +1,14 @@
-package com.example.chat;
+package com.example.chat.chatSectionPackage;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Lifecycle;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
+
+import com.example.chat.chatSectionPackage.friendsFragmentPackage.friendsFragment;
+import com.example.chat.chatSectionPackage.profileFragmentPackage.profileFragment;
+import com.example.chat.chatSectionPackage.recentChatPackage.recentChatsFragment;
 
 public class viewPagerAdapter extends FragmentStateAdapter {
 

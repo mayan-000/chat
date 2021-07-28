@@ -1,4 +1,4 @@
-package com.example.chat;
+package com.example.chat.authenticationPackage;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,6 +8,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.chat.R;
+import com.example.chat.authenticationPackage.loginActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class forgotActivity extends AppCompatActivity {

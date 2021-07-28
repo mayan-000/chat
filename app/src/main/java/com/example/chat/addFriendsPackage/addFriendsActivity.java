@@ -1,10 +1,12 @@
-package com.example.chat;
+package com.example.chat.addFriendsPackage;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.os.Bundle;
 
+import com.example.chat.R;
+import com.example.chat.zoomTransformer.ZoomOutPageTransformer;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
