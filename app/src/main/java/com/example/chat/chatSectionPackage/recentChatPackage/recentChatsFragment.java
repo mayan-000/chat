@@ -62,7 +62,6 @@ public class recentChatsFragment extends Fragment {
             @Override
             public void onChildAdded(DataSnapshot snapshot, String previousChildName) {
                 messageClass msg1 = snapshot.getValue(messageClass.class);
-                msg1.decrypt();
                 messageClassNew msg = new messageClassNew(msg1);
                 msg.setUid(snapshot.getKey());
 
@@ -74,7 +73,7 @@ public class recentChatsFragment extends Fragment {
             public void onChildChanged(DataSnapshot snapshot, String previousChildName) {
                 String uid = snapshot.getKey();
                 messageClass msg1 = snapshot.getValue(messageClass.class);
-                msg1.decrypt();
+
                 messageClassNew msg = new messageClassNew(msg1);
                 msg.setUid(uid);
 

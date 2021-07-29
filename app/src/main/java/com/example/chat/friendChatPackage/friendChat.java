@@ -105,7 +105,6 @@ public class friendChat extends AppCompatActivity {
 
                 resetRead(msg, snapshot.getKey());
 
-                msg.decrypt();
 
                 messages.add(msg);
 
@@ -239,8 +238,6 @@ public class friendChat extends AppCompatActivity {
         messageClass NewMsg = new messageClass(dateTime[0],dateTime[1],MessageToSend,"send",1),
                 NewMsg2 = new messageClass(dateTime[0],dateTime[1],MessageToSend,"receive",0);
 
-        NewMsg.encrypt();
-        NewMsg2.setMessage(NewMsg.getMessage());
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users/"+
                 user.getUid()+"/friends/"+friendUserUid+"/messages/");
