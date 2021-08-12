@@ -22,13 +22,14 @@
                 android:layout_width="110dp"
                 android:layout_height="0dp"
                 android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
                 android:layout_weight="1"
                 android:padding="10dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/friendNameFriendFragement"
+                app:layout_constraintEnd_toStartOf="@+id/guideline32"
+                app:layout_constraintHorizontal_bias="0.493"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0"
                 tools:srcCompat="@tools:sample/avatars" />
 
             <ProgressBar
@@ -43,16 +44,13 @@
 
             <TextView
                 android:id="@+id/friendNameFriendFragement"
-                android:layout_width="200dp"
-                android:layout_height="55dp"
-                android:layout_margin="@dimen/margin"
-                android:layout_marginEnd="40dp"
-                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:gravity="center"
                 android:hint="Name"
-                android:paddingLeft="20dp"
-                android:paddingTop="5dp"
+                android:textAlignment="center"
                 android:textColor="@color/black"
-                android:textSize="24sp"
+                android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -64,10 +62,20 @@
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="100dp"
                 android:layout_height="55dp"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="@+id/friendNameFriendFragement"
                 app:layout_constraintEnd_toEndOf="@+id/friendNameFriendFragement"
-                app:layout_constraintStart_toStartOf="@+id/friendNameFriendFragement"
-                app:layout_constraintTop_toTopOf="@+id/friendNameFriendFragement" />
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/friendImageFriendFragment"
+                app:layout_constraintTop_toTopOf="@+id/friendNameFriendFragement"
+                app:layout_constraintVertical_bias="1.0" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline32"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="120dp" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>

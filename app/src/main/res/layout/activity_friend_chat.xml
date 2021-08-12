@@ -9,47 +9,56 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:background="@color/dark_slate_gray"
         android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@id/guideline10"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/friendNameChat"
-            android:layout_width="300dp"
-            android:layout_height="50dp"
-            android:layout_marginLeft="@dimen/margin"
-            android:layout_marginEnd="91dp"
-            android:layout_marginBottom="10dp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:gravity="center_vertical"
             android:padding="10dp"
             android:text="Name"
             android:textColor="@color/white"
             android:textSize="24sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/guideline12"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/friendProfilePicChat"
-            android:layout_width="75dp"
-            android:layout_height="60dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="5dp"
-            android:background="@color/white"
-            android:scaleType="fitXY"
-            android:visibility="visible"
+        <androidx.cardview.widget.CardView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="5dp"
+            app:cardCornerRadius="100dp"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/friendNameChat"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/user_icon" />
+            app:layout_constraintStart_toStartOf="@+id/guideline12"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/friendProfilePicChat"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitXY"
+                android:visibility="visible"
+                app:srcCompat="@drawable/user_icon" />
+
+            <ProgressBar
+                android:id="@+id/progressBarImageFriendChat"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" />
+        </androidx.cardview.widget.CardView>
 
         <ProgressBar
             android:id="@+id/progressBarNameFriendChat"
@@ -62,31 +71,24 @@
             app:layout_constraintStart_toStartOf="@+id/friendNameChat"
             app:layout_constraintTop_toTopOf="@+id/friendNameChat" />
 
-        <ProgressBar
-            android:id="@+id/progressBarImageFriendChat"
-            style="?android:attr/progressBarStyle"
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline12"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="@+id/friendProfilePicChat"
-            app:layout_constraintEnd_toEndOf="@+id/friendProfilePicChat"
-            app:layout_constraintHorizontal_bias="0.555"
-            app:layout_constraintStart_toStartOf="@+id/friendProfilePicChat"
-            app:layout_constraintTop_toTopOf="@+id/friendProfilePicChat" />
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.75" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/messageList"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="70dp"
-        android:layout_marginEnd="10dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginBottom="60dp"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout2">
 
     </androidx.recyclerview.widget.RecyclerView>
 
@@ -94,7 +96,6 @@
         android:id="@+id/linearLayout3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:background="@color/dark_slate_gray"
         android:gravity="center_horizontal"
         android:orientation="horizontal"
@@ -136,5 +137,19 @@
         app:layout_constraintEnd_toEndOf="@+id/messageList"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout2" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.1" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_end="60dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

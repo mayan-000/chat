@@ -5,53 +5,74 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <ImageView
-        android:id="@+id/friendImage"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_margin="10dp"
-        android:scaleType="fitXY"
-        tools:srcCompat="@tools:sample/avatars" />
-
-    <LinearLayout
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/friendName"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_margin="7dp"
-            android:autoSizeTextType="uniform"
-            android:text="Name"
-            android:textColor="@color/black"
-            android:textStyle="bold" />
+        android:layout_height="match_parent"
+        android:layout_margin="5dp"
+        app:cardCornerRadius="10dp">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/recent"
-                android:layout_width="133dp"
-                android:layout_height="34dp"
-                android:layout_margin="7dp"
-                android:autoSizeTextType="uniform"
-                android:text="recent msg" />
+            <androidx.cardview.widget.CardView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_margin="10dp"
+                app:cardCornerRadius="10dp">
 
-            <TextView
-                android:id="@+id/time"
-                android:layout_width="78dp"
-                android:layout_height="34dp"
-                android:layout_margin="7dp"
-                android:layout_marginTop="@dimen/margin"
-                android:layout_marginRight="@dimen/margin"
-                android:layout_marginBottom="@dimen/margin"
-                android:autoSizeTextType="uniform"
-                android:text="TextView" />
+                <ImageView
+                    android:id="@+id/friendImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitXY"
+                    tools:srcCompat="@tools:sample/avatars" />
+            </androidx.cardview.widget.CardView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/friendName"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_margin="7dp"
+                    android:autoSizeMaxTextSize="24sp"
+                    android:autoSizeMinTextSize="14sp"
+                    android:autoSizeTextType="uniform"
+                    android:text="Name"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/recent"
+                        android:layout_width="133dp"
+                        android:layout_height="34dp"
+                        android:layout_margin="7dp"
+                        android:autoSizeTextType="uniform"
+                        android:text="recent msg" />
+
+                    <TextView
+                        android:id="@+id/time"
+                        android:layout_width="78dp"
+                        android:layout_height="34dp"
+                        android:layout_margin="7dp"
+                        android:layout_marginTop="@dimen/margin"
+                        android:layout_marginRight="@dimen/margin"
+                        android:layout_marginBottom="@dimen/margin"
+                        android:autoSizeTextType="uniform"
+                        android:text="TextView" />
+                </LinearLayout>
+
+            </LinearLayout>
+
         </LinearLayout>
-
-    </LinearLayout>
+    </androidx.cardview.widget.CardView>
 </LinearLayout>
