@@ -3,11 +3,9 @@ package com.example.chat.chatSectionPackage;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.chat.R;
-import com.example.chat.notificationService;
 import com.example.chat.zoomTransformer.ZoomOutPageTransformer;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
@@ -22,7 +20,6 @@ public class chatSectionActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_section);
 
-        startService(new Intent(this, notificationService.class));
 
         tabLayout = findViewById(R.id.tabLayoutChatSection);
         viewPagerChat = findViewById(R.id.viewPagerChatSection);
