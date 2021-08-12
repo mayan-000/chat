@@ -21,13 +21,14 @@
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".authenticationPackage.forgotActivity"
-            android:theme="@style/Theme.ChatLogin" />
+            android:theme="@style/Theme.ChatLogin"
+            android:windowSoftInputMode="adjustResize"/>
         <activity android:name=".chatSectionPackage.chatSectionActivity"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".authenticationPackage.signupActivity"
             android:theme="@style/Theme.ChatLogin"
-            android:windowSoftInputMode="adjustPan"
+            android:windowSoftInputMode="adjustResize"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".authenticationPackage.loginActivity"
