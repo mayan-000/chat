@@ -201,29 +201,23 @@ public class friendChat extends AppCompatActivity {
                 friendName.setText(Objects.requireNonNull(task.getResult()).getValue(String.class));
                 friendName.setVisibility(View.VISIBLE);
                 nameProgress.setVisibility(View.INVISIBLE);
+                String pic = "https://avatars.dicebear.com/api/initials/"+friendName.getText().toString()+".svg";
+
+                Picasso.get().load(pic).fit()
+                    .into(friendProfilePic, new Callback() {
+                        @Override
+                        public void onSuccess() {
+                            imageProgress.setVisibility(View.INVISIBLE);
+                            friendProfilePic.setVisibility(View.VISIBLE);
+                        }
+
+                        @Override
+                        public void onError(Exception e) {
+
+                        }
+                    });
             }
         });
-
-        DatabaseReference reference = database.getReference("users/"+friendUserUid+"/ProfilePic");
-
-        reference.get().addOnCompleteListener(task -> {
-            if(task.isSuccessful()){
-                Picasso.get().load(task.getResult().getValue(String.class)).fit()
-                        .into(friendProfilePic, new Callback() {
-                            @Override
-                            public void onSuccess() {
-                                imageProgress.setVisibility(View.INVISIBLE);
-                                friendProfilePic.setVisibility(View.VISIBLE);
-                            }
-
-                            @Override
-                            public void onError(Exception e) {
-
-                            }
-                        });
-            }
-        });
-
     }
 
 

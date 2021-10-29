@@ -97,11 +97,9 @@ public class profileFragment extends Fragment {
             getActivity().finish();
         });
 
-        userProfilePic.setOnClickListener(v -> {
-            startActivity(new Intent(getActivity(), changeImageActivity.class));
-        });
-
-
+//        userProfilePic.setOnClickListener(v -> {
+//            startActivity(new Intent(getActivity(), changeImageActivity.class));
+//        });
 
         return view;
     }
@@ -119,11 +117,17 @@ public class profileFragment extends Fragment {
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference reference = database.getReference("users/"+user.getUid()+
-                "/ProfilePic/");
+                "/username/");
 
         reference.get().addOnCompleteListener(task -> {
             if(task.isSuccessful()){
-                Picasso.get().load(task.getResult().getValue(String.class)).fit()
+                userName.setText(task.getResult().getValue(String.class));
+                userName.setVisibility(View.VISIBLE);
+                progressBarName.setVisibility(View.INVISIBLE);
+
+                String pic = "https://avatars.dicebear.com/api/initials/"+userName.getText()+".svg";
+
+                Picasso.get().load(pic).fit()
                         .into(userProfilePic, new Callback() {
                             @Override
                             public void onSuccess() {
@@ -137,17 +141,6 @@ public class profileFragment extends Fragment {
 
                             }
                         });
-            }
-        });
-
-        reference = database.getReference("users/"+user.getUid()+
-                "/username/");
-
-        reference.get().addOnCompleteListener(task -> {
-            if(task.isSuccessful()){
-                userName.setText(task.getResult().getValue(String.class));
-                userName.setVisibility(View.VISIBLE);
-                progressBarName.setVisibility(View.INVISIBLE);
             }
         });
 

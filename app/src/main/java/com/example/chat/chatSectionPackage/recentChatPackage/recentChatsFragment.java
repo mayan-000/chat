@@ -146,20 +146,12 @@ public class recentChatsFragment extends Fragment {
                 final String[] nameString = {""};
                 final String[] imageString = {""};
                 DatabaseReference reference = FirebaseDatabase.getInstance().getReference(
-                        "users/"+recents.get(position).getUid()+"/username/");
+                        "users/"+recents.get(position).getUid()+"/username/name");
 
                 reference.get().addOnCompleteListener(task -> {
                     if(task.isSuccessful()) {
                         nameString[0] = task.getResult().getValue(String.class);
-                    }
-                });
-
-                reference = FirebaseDatabase.getInstance().getReference(
-                        "users/"+recents.get(position).getUid()+"/ProfilePic/");
-
-                reference.get().addOnCompleteListener(task -> {
-                    if(task.isSuccessful()){
-                        imageString[0] = task.getResult().getValue(String.class);
+                        imageString[0] = "https://avatars.dicebear.com/api/initials/"+nameString[0]+".svg";
 
                         if(recents.get(position).getRead()==1){
                             ((recentChatsSeenHolder) holder).bind(msg, nameString[0], imageString[0]);
@@ -167,11 +159,8 @@ public class recentChatsFragment extends Fragment {
                         else{
                             ((recentChatsUnseenHolder) holder).bind(msg, nameString[0], imageString[0]);
                         }
-
                     }
                 });
-
-
             }
 
             @Override
